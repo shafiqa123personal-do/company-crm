@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ "Edit contact" if contact else "Add contact" }}</h1>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="post">
+  <label>Name<input type="text" name="name" value="{{ contact.name if contact else '' }}" required></label>
+  <label>Email<input type="email" name="email" value="{{ contact.email if contact else '' }}"></label>
+  <label>Phone<input type="text" name="phone" value="{{ contact.phone if contact else '' }}"></label>
+  <label>Organization<input type="text" name="organization" value="{{ contact.organization if contact else '' }}"></label>
+  <label>Notes<textarea name="notes">{{ contact.notes if contact else '' }}</textarea></label>
+  <label>Follow-up date<input type="date" name="follow_up_date" value="{{ contact.follow_up_date.isoformat() if contact and contact.follow_up_date else '' }}"></label>
+  <label>Status
+    <select name="status">
+      {% for s in ["lead", "active", "inactive"] %}
+      <option value="{{ s }}" {% if contact and contact.status == s %}selected{% endif %}>{{ s|capitalize }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <button type="submit">Save</button>
+</form>
+
+{% if contact %}
+<h2>Activity log</h2>
+<form method="post" action="{{ url_for('activity_add', contact_id=contact.id) }}" class="activity-form">
+  <textarea name="text" placeholder="Log a call, email, meeting..." required></textarea>
+  <button type="submit">Add activity</button>
+</form>
+<ul class="activity-list">
+  {% for a in activities %}
+  <li><span class="activity-date">{{ a.created_at.strftime("%Y-%m-%d %H:%M") }}</span> {{ a.text }}</li>
+  {% else %}
+  <li class="activity-empty">No activity logged yet.</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

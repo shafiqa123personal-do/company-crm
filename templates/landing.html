@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Company CRM — Know every customer{% endblock %}
+{% block auth_content %}
+<nav class="landing-nav">
+  <div class="landing-brand">Company CRM</div>
+  <div class="landing-nav-links">
+    <a href="{{ url_for('login') }}">Log In</a>
+    <a href="{{ url_for('signup') }}" class="btn-primary">Get Started</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <h1 id="hero-headline">One place for every customer.</h1>
+      <p>Track contacts, manage leads, and grow your business — free to start.</p>
+      <a href="{{ url_for('signup') }}" class="btn-hero">Get Started Free</a>
+      <p class="hero-sub">No credit card required.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="mock-window">
+        <div class="mock-window-bar"><span></span><span></span><span></span></div>
+        <div class="mock-window-body">
+          <div class="mock-stat-row">
+            <div class="mock-stat"><div class="mock-stat-num">128</div><div class="mock-stat-label">Contacts</div></div>
+            <div class="mock-stat"><div class="mock-stat-num">34</div><div class="mock-stat-label">Leads</div></div>
+            <div class="mock-stat"><div class="mock-stat-num">19</div><div class="mock-stat-label">Active</div></div>
+          </div>
+          <div class="mock-bars">
+            <span style="height:40%"></span>
+            <span style="height:70%"></span>
+            <span style="height:55%"></span>
+            <span style="height:90%"></span>
+            <span style="height:65%"></span>
+            <span style="height:80%"></span>
+          </div>
+        </div>
+      </div>
+      <div class="mock-ticker-wrap">
+        <div class="mock-ticker-track">
+          <span class="mock-ticker-item">🟢 New contact added</span>
+          <span class="mock-ticker-item">✅ CSV imported</span>
+          <span class="mock-ticker-item">🔍 Search: "jane"</span>
+          <span class="mock-ticker-item">📇 Contact updated</span>
+          <span class="mock-ticker-item">🟢 New contact added</span>
+          <span class="mock-ticker-item">✅ CSV imported</span>
+          <span class="mock-ticker-item">🔍 Search: "jane"</span>
+          <span class="mock-ticker-item">📇 Contact updated</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  const heroHeadlines = [
+    "One place for every customer.",
+    "Every contact, organized.",
+    "Your customers, always in reach.",
+    "Track leads. Close more deals."
+  ];
+  let heroHeadlineIndex = 0;
+  const heroHeadlineEl = document.getElementById("hero-headline");
+  setInterval(() => {
+    heroHeadlineIndex = (heroHeadlineIndex + 1) % heroHeadlines.length;
+    heroHeadlineEl.style.opacity = 0;
+    setTimeout(() => {
+      heroHeadlineEl.textContent = heroHeadlines[heroHeadlineIndex];
+      heroHeadlineEl.style.opacity = 1;
+    }, 300);
+  }, 2000);
+</script>
+<section class="logos-section">
+  <p class="logos-caption">Built for teams like these</p>
+  <div class="logos-row-wrapper">
+    <div class="logos-row">
+      <span class="logo-mark">Northwind</span>
+      <span class="logo-mark">Acme &amp; Co.</span>
+      <span class="logo-mark">Bright Path</span>
+      <span class="logo-mark">Skyline Group</span>
+      <span class="logo-mark">Cedar Works</span>
+      <span class="logo-mark">Northwind</span>
+      <span class="logo-mark">Acme &amp; Co.</span>
+      <span class="logo-mark">Bright Path</span>
+      <span class="logo-mark">Skyline Group</span>
+      <span class="logo-mark">Cedar Works</span>
+    </div>
+  </div>
+</section>
+<section class="stats-section">
+  <p class="stats-tagline">Everything you need to manage customers, from day one.</p>
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">Unlimited</div>
+      <div class="stat-label">Contacts you can track</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1-Click</div>
+      <div class="stat-label">CSV import &amp; export</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">Isolated</div>
+      <div class="stat-label">Your data, never shared</div>
+    </div>
+  </div>
+</section>
+<section class="search-demo">
+  <h2>Find any contact in seconds.</h2>
+  <div class="search-mock">
+    <span class="search-icon">🔍</span>
+    <span class="search-placeholder">Search by name or email...</span>
+  </div>
+  <p class="search-sub">Already tracking customers elsewhere? <a href="{{ url_for('signup') }}">Import them via CSV</a></p>
+  <div class="avatar-row">
+    <div class="avatar-circle" style="background:#f59e0b">🧑</div>
+    <div class="avatar-circle" style="background:#ec4899">👩</div>
+    <div class="avatar-circle" style="background:#10b981">🧑‍💼</div>
+    <div class="avatar-circle" style="background:#6366f1">👨‍💻</div>
+    <div class="avatar-circle" style="background:#ef4444">👩‍💼</div>
+  </div>
+  <p class="avatar-caption">Built for teams of any size.</p>
+</section>
+<footer class="landing-footer">
+  <div class="footer-columns">
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="{{ url_for('signup') }}">Contacts</a>
+      <a href="{{ url_for('signup') }}">Dashboard</a>
+      <a href="{{ url_for('signup') }}">CSV Import / Export</a>
+    </div>
+    <div class="footer-col">
+      <h4>Account</h4>
+      <a href="{{ url_for('login') }}">Log In</a>
+      <a href="{{ url_for('signup') }}">Get Started</a>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <p class="footer-note">A small CRM project built to learn Flask — not a registered company or commercial product.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Company CRM</span>
+    <span>&copy; 2026 Company CRM. All rights reserved.</span>
+  </div>
+</footer>
+{% endblock %}

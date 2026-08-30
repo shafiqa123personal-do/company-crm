@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="stat-cards">
+  <div class="stat-card"><div class="num">{{ total }}</div><div>Total contacts</div></div>
+  {% for status, count in by_status.items() %}
+  <div class="stat-card"><div class="num">{{ count }}</div><div>{{ status|capitalize }}</div></div>
+  {% endfor %}
+</div>
+
+<div class="chart-card">
+  <h2>Contacts by status</h2>
+  <canvas id="statusChart" height="90"></canvas>
+</div>
+
+<h2>Follow-ups due</h2>
+{% if followups %}
+<table>
+  <tr><th>Name</th><th>Follow-up date</th><th></th></tr>
+  {% for c in followups %}
+  <tr class="{{ 'overdue' if c.follow_up_date < today else 'due-today' }}">
+    <td>{{ c.name }}</td>
+    <td>{{ c.follow_up_date.strftime("%Y-%m-%d") }}{% if c.follow_up_date < today %} (overdue){% endif %}</td>
+    <td><a href="{{ url_for('contact_edit', contact_id=c.id) }}">Open</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>No follow-ups due.</p>
+{% endif %}
+
+<h2>Recently added</h2>
+<table>
+  <tr><th>Name</th><th>Email</th><th>Status</th><th>Added</th></tr>
+  {% for c in recent %}
+  <tr><td>{{ c.name }}</td><td>{{ c.email }}</td><td>{{ c.status }}</td><td>{{ c.created_at.strftime("%Y-%m-%d") }}</td></tr>
+  {% endfor %}
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+  new Chart(document.getElementById('statusChart'), {
+    type: 'bar',
+    data: {
+      labels: {{ by_status.keys()|list|tojson }},
+      datasets: [{
+        label: 'Contacts',
+        data: {{ by_status.values()|list|tojson }},
+        backgroundColor: ['#2563eb', '#16a34a', '#f59e0b', '#dc2626']
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+    }
+  });
+</script>
+{% endblock %}
